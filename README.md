@@ -8,40 +8,31 @@ This program shows where time and bytes are spent when building a docker context
 It is based directly on the same logic that Docker itself uses to build the
 context.
 
-## Getting started (docker):
+## Getting started (docker)
 
 ```sh
-docker build -t docker-show-context https://github.com/pwaller/docker-show-context.git
+docker build -t docker-show-context https://github.com/nikicat/docker-show-context.git
 docker run --rm -v $PWD:/data docker-show-context
 ```
 
-## Getting started (binaries):
+## Getting started (go install)
 
-Binaries are available on the
-[releases page](https://github.com/pwaller/docker-show-context/releases).
-Just grab the binary and put it in your path, then invoke it as
-`docker-show-context`. Use at your own risk.
-
-## Getting started (building from source):
-
-You will need go 1.11 or more recent, which can be obtained from
+You will need recent go, which can be obtained from
 [the go website](https://golang.org/dl).
 
 Then run:
 
-```
-git clone https://github.com/pwaller/docker-show-context
-cd docker-show-context
-GO111MODULE=on go install -v
+```sh
+go install https://github.com/nikicat/docker-show-context
 ```
 
-# What the output looks like
+## What the output looks like
 
 The output looks something like this. It's easy to see now that I accidentally
 included some large binary content (`*.deb` and `*.pdf` files in particular),
 so I can now go and add those to my `.dockerignore` or delete them.
 
-```
+```sh
 $ cd ~/path/to/project/using/docker
 $ docker-show-context
 Scanning local directory (in tar / on disk):
@@ -78,7 +69,7 @@ Top 10 file extensions by storage:
    0.00 MiB: .dockerignore
 ```
 
-# Notes about the current behaviour
+## Notes about the current behaviour
 
 This documents the current behaviour, which may not be ideal, but it is what it
 is for now. Pull requests welcome.
@@ -99,7 +90,7 @@ is for now. Pull requests welcome.
   Pull requests welcome to add parameters, so long as the existing default
   behaviour is preserved.
 
-# How can I use this to make building faster?
+## How can I use this to make building faster?
 
 Frequently, I find that `docker build` suddenly takes longer than I expect. It
 is often the case that I have accidentally included some binaries or something
@@ -109,7 +100,7 @@ so that you can improve your `.dockerfile` or delete assets you don't need.
 
 It scratches an itch.
 
-# License
+## License
 
 > The MIT License (MIT)
 >
