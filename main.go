@@ -14,9 +14,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/docker/docker/builder/dockerignore"
 	"github.com/docker/docker/pkg/archive"
-	"github.com/docker/docker/pkg/fileutils"
+	"github.com/moby/buildkit/frontend/dockerfile/dockerignore"
+	"github.com/moby/patternmatcher"
 )
 
 // getArchive returns the tarfile io.ReadCloser. It is a direct copy of the
@@ -49,8 +49,8 @@ func getArchive(contextDir, relDockerfile string) (io.ReadCloser, error) {
 	// parses the Dockerfile. Ignore errors here, as they will have been
 	// caught by validateContextDirectory above.
 	var includes = []string{"."}
-	keepThem1, _ := fileutils.Matches(".dockerignore", excludes)
-	keepThem2, _ := fileutils.Matches(relDockerfile, excludes)
+	keepThem1, _ := patternmatcher.Matches(".dockerignore", excludes)
+	keepThem2, _ := patternmatcher.Matches(relDockerfile, excludes)
 	if keepThem1 || keepThem2 {
 		includes = append(includes, ".dockerignore", relDockerfile)
 	}
